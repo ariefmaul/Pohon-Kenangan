@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tree;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class TreeController extends Controller
 {
@@ -110,11 +111,26 @@ class TreeController extends Controller
     }
 
     // Admin: hapus pohon
+
     public function destroy($id)
     {
         $tree = Tree::findOrFail($id);
+
+        // ✅ Hapus gambar hero jika ada
+        if ($tree->gambar && Storage::disk('public')->exists($tree->gambar)) {
+            Storage::disk('public')->delete($tree->gambar);
+        }
+
+        // ✅ Hapus foto lokasi jika ada
+        if ($tree->foto_lokasi && Storage::disk('public')->exists($tree->foto_lokasi)) {
+            Storage::disk('public')->delete($tree->foto_lokasi);
+        }
+
+        // ✅ Hapus data dari database
         $tree->delete();
 
-        return redirect()->route('admin.trees.index')->with('success', 'Pohon berhasil dihapus!');
+        return redirect()
+            ->route('admin.trees.index')
+            ->with('success', 'Pohon dan seluruh gambarnya berhasil dihapus!');
     }
 }

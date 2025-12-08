@@ -40,6 +40,16 @@ Route::middleware(['auth', 'admin'])->group(function () {
         ->name('trees.update');
     Route::delete('/admin/trees/{id}', [TreeController::class, 'destroy'])
         ->name('trees.destroy');
+
+    //anggota
+    Route::get('/admin/members', [MemberController::class, 'adminIndex'])
+        ->name('admin.members.index');
+    Route::post('/admin/members', [MemberController::class, 'store'])
+        ->name('admin.members.store');
+    Route::put('/admin/members/{id}', [MemberController::class, 'update'])
+        ->name('admin.members.update');
+    Route::delete('/admin/members/{id}', [MemberController::class, 'destroy'])
+        ->name('admin.members.destroy');
 });
 
 

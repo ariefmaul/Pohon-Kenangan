@@ -127,6 +127,22 @@
     @endif
 
     @stack('scripts')
+    @if ($errors->any())
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Gagal',
+                html: `
+                <ul style="text-align:left">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            `,
+            });
+        </script>
+    @endif
+
 </body>
 
 </html>

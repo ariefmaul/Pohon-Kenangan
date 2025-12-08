@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Member;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MemberController extends Controller
 {
@@ -14,6 +15,11 @@ class MemberController extends Controller
         return view('members.index', compact('members'));
     }
 
+    public function adminIndex()
+    {
+        $members = Member::paginate(20);
+        return view('admin.members.index', compact('members'));
+    }
     // Form tambah (admin)
     public function create()
     {
@@ -23,11 +29,18 @@ class MemberController extends Controller
     // Simpan member baru (admin)
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'nama' => 'required|string|max:255',
-            'jabatan' => 'nullable|string|max:255',
-            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        ]);
+        $validated = $request->validate(
+            [
+                'nama' => 'required|string|max:255',
+                'jabatan' => 'nullable|string|max:255',
+                'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            ],
+            [
+                'foto.image' => 'File yang diunggah harus berupa gambar.',
+                'foto.mimes' => 'Format gambar harus jpg, jpeg, atau png.',
+                'foto.max' => 'Ukuran gambar maksimal 2MB.',
+            ]
+        );
 
         if ($request->hasFile('foto')) {
             $validated['foto'] = $request->file('foto')->store('members', 'public');
@@ -35,7 +48,7 @@ class MemberController extends Controller
 
         Member::create($validated);
 
-        return redirect()->route('members.index')->with('success', 'Member berhasil ditambahkan!');
+        return redirect()->route('admin.members.index')->with('success', 'Member berhasil ditambahkan!');
     }
 
     // Form edit (admin)
@@ -50,11 +63,19 @@ class MemberController extends Controller
     {
         $member = Member::findOrFail($id);
 
-        $validated = $request->validate([
-            'nama' => 'required|string|max:255',
-            'jabatan' => 'nullable|string|max:255',
-            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-        ]);
+        $validated = $request->validate(
+            [
+                'nama' => 'required|string|max:255',
+                'jabatan' => 'nullable|string|max:255',
+                'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            ],
+            [
+                'foto.image' => 'File yang diunggah harus berupa gambar.',
+                'foto.mimes' => 'Format gambar harus jpg, jpeg, atau png.',
+                'foto.max' => 'Ukuran gambar maksimal 2MB.',
+            ]
+        );
+
 
         if ($request->hasFile('foto')) {
             $validated['foto'] = $request->file('foto')->store('members', 'public');
@@ -62,15 +83,19 @@ class MemberController extends Controller
 
         $member->update($validated);
 
-        return redirect()->route('members.index')->with('success', 'Member berhasil diupdate!');
+        return redirect()->route('admin.members.index')->with('success', 'Member berhasil diupdate!');
     }
 
     // Hapus member (admin)
     public function destroy($id)
     {
         $member = Member::findOrFail($id);
+        //hapus foto di perangkat
+        if ($member->foto) {
+            Storage::disk('public')->delete($member->foto);
+        }
         $member->delete();
 
-        return redirect()->route('members.index')->with('success', 'Member berhasil dihapus!');
+        return redirect()->route('admin.members.index')->with('success', 'Member berhasil dihapus!');
     }
 }
