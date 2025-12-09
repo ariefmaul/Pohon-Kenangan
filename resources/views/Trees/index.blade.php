@@ -8,9 +8,10 @@
                 🌳 Daftar Pohon
             </h1>
         </div>
-
+        <input type="text" id="searchInputs" placeholder="Cari pohon..."
+            class="border px-3 py-2 rounded-lg w-64 focus:ring focus:ring-green-300 mb-3">
         <!-- Grid Card -->
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" id="treeLists">
             @foreach ($trees as $tree)
                 <div class="group bg-white rounded-2xl shadow hover:shadow-xl transition duration-300 overflow-hidden">
 
@@ -57,3 +58,22 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        // Client-side search functionality
+        document.getElementById("searchInputs").addEventListener("keyup", function() {
+            let keyword = this.value.toLowerCase();
+            let cards = document.querySelectorAll("#treeLists .group");
+
+            cards.forEach(card => {
+                let title = card.querySelector("h2").innerText.toLowerCase();
+
+                if (title.includes(keyword)) {
+                    card.style.display = "block"; // tampil
+                } else {
+                    card.style.display = "none"; // sembunyi
+                }
+            });
+        });
+    </script>
+@endpush

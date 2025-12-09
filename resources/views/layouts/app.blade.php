@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title ?? 'Kebun Opah' }}</title>
+    <title>{{ $title ?? 'Kebun SMKN 2 Tasikmalaya' }}</title>
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 
     <!-- ✅ Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -38,33 +39,40 @@
 
                 <!-- Logo -->
                 <a href="{{ url('/') }}" class="flex items-center gap-2 text-green-700 font-extrabold text-lg">
-                    🌱 Kebun Opah
+                    <img src="{{ asset('favicon.ico') }}" alt="Logo Kebun Opah" class="h-8 w-8">
                 </a>
 
                 <!-- Menu -->
                 <div class="flex items-center gap-6 text-sm font-medium">
 
-                    <a href="{{ url('/trees') }}" class="hover:text-green-600 transition">
+                    <a href="{{ url('/trees') }}"
+                        class="hover:text-green-600 transition {{ Request::is('trees') ? 'text-green-700' : '' }}">
                         Jenis Pohon
                     </a>
-                    <a href="{{ url('/members') }}" class="hover:text-green-600 transition">
+                    <a href="{{ url('/members') }}"
+                        class="hover:text-green-600 transition {{ Request::is('members') ? 'text-green-700' : '' }}">
                         Anggota
                     </a>
-                    <a href="{{ url('/sejarah') }}" class="hover:text-green-600 transition">
+                    <a href="{{ url('/sejarah') }}"
+                        class="hover:text-green-600 transition {{ Request::is('sejarah') ? 'text-green-700' : '' }}">
                         Sejarah
                     </a>
 
                     @auth
                         @if (auth()->user()->role === 'admin')
                             <span class="border-l h-5 mx-2"></span>
-                            <a href="{{ url('/admin/trees') }}" class="hover:text-green-600 transition">
+                            <a href="{{ url('/admin/trees') }}"
+                                class="hover:text-green-600 transition {{ Request::is('admin/trees') ? 'text-green-700' : '' }}">
                                 Kelola Pohon
                             </a>
-                            <a href="{{ url('/admin/articles') }}" class="hover:text-green-600 transition">
-                                Kelola Artikel
-                            </a>
-                            <a href="{{ url('/admin/members') }}" class="hover:text-green-600 transition">
+
+                            <a href="{{ url('/admin/members') }}"
+                                class="hover:text-green-600 transition {{ Request::is('admin/members') ? 'text-green-700' : '' }}">
                                 Kelola Anggota
+                            </a>
+                            <a href="{{ url('/admin/qrcode') }}"
+                                class="hover:text-green-600 transition {{ Request::is('admin/qrcode') ? 'text-green-700' : '' }}">
+                                QR Code
                             </a>
                         @endif
 
@@ -97,9 +105,9 @@
     {{-- ================= FOOTER ================= --}}
     <footer class="bg-gradient-to-r from-green-700 to-green-600 text-white">
         <div class="max-w-7xl mx-auto px-4 py-6 text-center text-sm">
-            <p class="font-semibold">🌿 Kebun Opah</p>
+            <p class="font-semibold">🌿 Kebun SMKN2TSM</p>
             <p class="opacity-80 mt-1">
-                &copy; {{ date('Y') }} Kebun Opah. Semua Hak Dilindungi.
+                &copy; {{ date('Y') }} Kebun SMKN2TSM. Semua Hak Dilindungi.
             </p>
         </div>
     </footer>

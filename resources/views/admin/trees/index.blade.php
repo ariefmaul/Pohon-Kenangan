@@ -1,20 +1,29 @@
 @extends('layouts.app')
 
 @section('content')
-
     <div class="max-w-7xl mx-auto px-4 py-8">
         <!-- Header -->
         <div class="flex items-center justify-between mb-8">
+            {{-- pencarian client side --}}
+
+
             <h1 class="text-3xl font-bold text-gray-800">
                 🌳 Daftar Pohon
             </h1>
+
         </div>
-        <button onclick="openCreateModal()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
-            + Tambah Pohon
-        </button>
+        <div class="flex items-center justify-between mb-6">
+
+            <input type="text" id="searchInput" placeholder="Cari pohon..."
+                class="border px-3 py-2 rounded-lg w-64 focus:ring focus:ring-green-300">
+            <button onclick="openCreateModal()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
+                + Tambah Pohon
+            </button>
+        </div>
 
         <!-- Grid Card -->
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" id="treeList">
+
             @foreach ($trees as $tree)
                 <div class="group bg-white rounded-2xl shadow hover:shadow-xl transition duration-300 overflow-hidden">
 
@@ -164,6 +173,24 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
+        // =======================
+        // Pencarian Client-Side
+        // =======================
+        document.getElementById("searchInput").addEventListener("keyup", function() {
+            let keyword = this.value.toLowerCase();
+            let cards = document.querySelectorAll("#treeList .group");
+
+            cards.forEach(card => {
+                let title = card.querySelector("h2").innerText.toLowerCase();
+
+                if (title.includes(keyword)) {
+                    card.style.display = "block"; // tampil
+                } else {
+                    card.style.display = "none"; // sembunyi
+                }
+            });
+        });
+
         const modal = document.getElementById('treeModal');
         const form = document.getElementById('treeForm');
 

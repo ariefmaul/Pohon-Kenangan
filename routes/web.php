@@ -5,9 +5,11 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\TreeController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\QrController;
 
 // Route untuk user biasa (guest)
 Route::get('/', [TreeController::class, 'index']);
+Route::get('/trees', [TreeController::class, 'index']);
 Route::get('/trees/{id}', [TreeController::class, 'show']);
 Route::get('/articles/{id}', [ArticleController::class, 'show']);
 Route::get('/members', [MemberController::class, 'index']);
@@ -17,6 +19,8 @@ Route::get('/sejarah', function () {
 Route::get('/trees/{id}', [TreeController::class, 'show'])
     ->name('trees.show');
 // Route untuk admin (CRUD)
+
+
 Route::middleware(['auth', 'admin'])->group(function () {
     // artikel
     Route::get('/admin/articles', [ArticleController::class, 'index'])
@@ -50,6 +54,17 @@ Route::middleware(['auth', 'admin'])->group(function () {
         ->name('admin.members.update');
     Route::delete('/admin/members/{id}', [MemberController::class, 'destroy'])
         ->name('admin.members.destroy');
+
+    //generator qr
+    // QR Code Generator
+    Route::get('/admin/qrcode', function () {
+        return view('admin.qrcode');
+    })->name('admin.qrcode');
+
+    Route::post('/admin/qrcode', [\App\Http\Controllers\QrController::class, 'generate'])
+        ->name('admin.qrcode.generate');
+    Route::get('/admin/qrcode', [QrController::class, 'index'])->name('admin.qrcode.index');
+    Route::post('/admin/qrcode', [QrController::class, 'generate'])->name('admin.qrcode.generate');
 });
 
 
