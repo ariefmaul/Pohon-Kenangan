@@ -1,59 +1,137 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Kebun Opah (SMKN 2 Tasikmalaya)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Project web sederhana untuk menampilkan koleksi pohon, artikel terkait, dan manajemen anggota. Termasuk fitur admin untuk CRUD pohon, artikel, anggota, serta generator QR code.
 
-## About Laravel
+## Fitur utama
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Daftar dan detail pohon (public)
+- Artikel terkait setiap pohon (public)
+- Halaman anggota tim (public)
+- Panel admin untuk mengelola pohon, artikel, anggota
+- Generator QR code yang menghasilkan file PNG (disimpan di `storage/app/public/qrcodes`)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Teknologi
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP 8.2
+- Laravel 12
+- Tailwind CSS + Vite
+- endroid/qr-code untuk pembuatan QR
 
-## Learning Laravel
+## Persyaratan
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+- PHP >= 8.2
+- Composer
+- Node.js + npm
+- Extensi PHP umum (mbstring, pdo, fileinfo, openssl)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Instalasi (development)
 
-## Laravel Sponsors
+1. Clone repository:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+git clone <repo-url>
+cd kebun-opah
+```
 
-### Premium Partners
+2. Install PHP dependencies:
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```bash
+composer install
+```
+
+3. Salin `.env` dan konfigurasi environment:
+
+```bash
+cp .env.example .env
+php artisan key:generate
+# edit .env sesuai database Anda
+```
+
+4. Migrasi database (pastikan konfigurasi `.env` benar):
+
+```bash
+php artisan migrate
+```
+
+5. Buat symlink storage (untuk akses file di `storage/app/public`):
+
+```bash
+php artisan storage:link
+```
+
+6. Install frontend dependencies dan build (development):
+
+```bash
+npm install
+npm run dev
+```
+
+7. Jalankan server lokal:
+
+```bash
+php artisan serve
+```
+
+Buka `http://127.0.0.1:8000`.
+
+## Struktur penting
+
+- `app/Http/Controllers` — controller utama seperti `TreeController`, `ArticleController`, `MemberController`, `QrController`.
+- `app/Models` — model: `Tree`, `TreeArticle`, `Member`, `User`.
+- `resources/views` — blade view untuk public dan admin.
+- `routes/web.php` — definisi route. Admin routes berada di bawah middleware `auth, admin` dan menggunakan path `/admin/*`.
+- `storage/app/public/qrcodes` — output QR code.
+
+## Routes singkat (penting)
+
+- Public:
+	- `GET /` — daftar pohon
+	- `GET /trees/{id}` — detail pohon
+	- `GET /articles/{id}` — lihat artikel
+	- `GET /members` — daftar anggota
+
+- Admin (membutuhkan login dan role `admin`):
+	- `GET /admin/articles` — daftar artikel (admin)
+	- `POST /admin/articles` — simpan artikel
+	- `PUT /admin/articles/{id}` — update artikel
+	- `DELETE /admin/articles/{id}` — hapus artikel
+	- `GET /admin/trees` — daftar pohon (admin)
+	- `POST /admin/trees` — simpan pohon
+	- `PUT /admin/trees/{id}` — update pohon
+	- `DELETE /admin/trees/{id}` — hapus pohon
+	- `GET /admin/members` dan CRUD member
+	- `GET /admin/qrcode` + `POST /admin/qrcode` — generator QR code
+
+## Notes teknis / catatan developer
+
+- Controller admin mengembalikan view di `resources/views/admin/*`.
+- `ArticleController` menggunakan model `TreeArticle` (tabel `tree_articles`) dan menaruh file gambar di disk `public`.
+- `TreeController` menyertakan logic untuk menghapus file gambar dari disk saat record dihapus.
+- QR generator (`QrController`) menyimpan file PNG ke `storage/app/public/qrcodes` dan mengembalikan URL `asset('storage/qrcodes/...')`.
+
+## Menjalankan test
+
+Project saat ini tidak memiliki test otomatis (PHPUnit) yang dijalankan secara default. Jika Anda ingin menambahkan test, jalankan:
+
+```bash
+vendor/bin/phpunit
+```
+
+atau:
+
+```bash
+php artisan test
+```
+
+## Troubleshooting singkat
+
+- Jika Anda mendapatkan error terkait file yang tidak bisa ditulis, pastikan folder `storage` dan `bootstrap/cache` memiliki permission yang benar.
+- Jika gambar atau QR tidak muncul, jalankan `php artisan storage:link` lalu periksa file ada di `storage/app/public/qrcodes`.
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Jika Anda ingin berkontribusi, silakan buat branch feature/fix, lakukan perubahan, dan buka pull request. Sertakan deskripsi singkat perubahan dan cara memverifikasi.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+MIT
