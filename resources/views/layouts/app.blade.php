@@ -28,6 +28,93 @@
             animation: slideUp 0.25s ease-out;
         }
     </style>
+    <style>
+        /* Fade-in animasi */
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 1.2s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Card hover animasi */
+        .card-hover {
+            transition: transform .3s ease, box-shadow .3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 35px rgba(0, 0, 0, .15);
+        }
+
+        /* Efek daun melayang */
+        .leaf {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: #9dbb6a;
+            border-radius: 3px 50% 50% 50%;
+            opacity: .3;
+            animation: floatLeaf 6s infinite ease-in-out;
+        }
+
+        @keyframes floatLeaf {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-25px) rotate(25deg);
+            }
+
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+        }
+
+        /* PARALLAX */
+        .parallax-modern {
+            position: relative;
+            height: 380px;
+            overflow: hidden;
+        }
+
+        .parallax-modern img {
+            width: 100%;
+            height: 120%;
+            object-fit: cover;
+            transform: translateY(0);
+            transition: transform 0.15s ease-out;
+            will-change: transform;
+        }
+
+        /* SCROLL ANIMATION */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* CARD HOVER */
+        .card-hover {
+            transition: transform .2s, box-shadow .2s;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+
 </head>
 
 <body class="bg-gray-100 text-gray-800 antialiased">
@@ -47,7 +134,7 @@
 
                     <a href="{{ url('/trees') }}"
                         class="hover:text-green-600 transition {{ Request::is('trees') ? 'text-green-700' : '' }}">
-                        Jenis Pohon
+                        Semua Pohon
                     </a>
                     <a href="{{ url('/members') }}"
                         class="hover:text-green-600 transition {{ Request::is('members') ? 'text-green-700' : '' }}">
@@ -150,6 +237,21 @@
             });
         </script>
     @endif
+    <script>
+        document.addEventListener("scroll", () => {
+            const img = document.querySelector(".parallax-modern img");
+            if (img) {
+                img.style.transform = `translateY(${window.scrollY * 0.20}px)`;
+            }
+
+            document.querySelectorAll('.reveal').forEach(el => {
+                const top = el.getBoundingClientRect().top;
+                if (top < window.innerHeight - 80) {
+                    el.classList.add('visible');
+                }
+            });
+        });
+    </script>
 
 </body>
 
