@@ -7,8 +7,8 @@
     <title>{{ $title ?? 'Kebun SMKN 2 Tasikmalaya' }}</title>
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 
-    <!-- ✅ Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+@vite(['resources/css/app.css', 'resources/js/app.js'])
+
 
     @stack('styles')
     <style>
