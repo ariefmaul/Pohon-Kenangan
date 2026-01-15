@@ -17,7 +17,7 @@
             <input type="text" id="searchInput" placeholder="Cari pohon..."
                 class="border px-3 py-2 rounded-lg w-64 focus:ring focus:ring-green-300">
             <button onclick="openCreateModal()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
-                + Tambah Pohon
+                +  
             </button>
         </div>
 
@@ -91,7 +91,7 @@
             <!-- Header -->
             <div class="px-6 py-4 border-b flex justify-between items-center">
                 <h2 id="modalTitle" class="text-lg sm:text-xl font-bold">
-                    Tambah Pohon
+                    Tambah
                 </h2>
                 <button onclick="closeModal()" class="text-gray-500 hover:text-black text-xl">
                     ✕
@@ -222,15 +222,7 @@
             modal.classList.add('hidden');
         }
 
-        // ✅ SweetAlert Loading on submit
-        form.addEventListener('submit', () => {
-            Swal.fire({
-                title: 'Menyimpan...',
-                html: 'Mohon tunggu',
-                allowOutsideClick: false,
-                didOpen: () => Swal.showLoading()
-            });
-        });
+        
 
         // ✅ Delete dengan SweetAlert
         function confirmDelete(id) {

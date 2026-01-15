@@ -122,7 +122,9 @@ atau:
 ```bash
 php artisan test
 ```
-
+## Halaman Admin
+- E-Mail = admin@kebunopah.com
+- Password = password
 ## Troubleshooting singkat
 
 - Jika Anda mendapatkan error terkait file yang tidak bisa ditulis, pastikan folder `storage` dan `bootstrap/cache` memiliki permission yang benar.

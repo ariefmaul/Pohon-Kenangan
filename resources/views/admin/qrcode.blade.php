@@ -10,19 +10,24 @@
             <button class="bg-blue-600 text-white px-3 py-2 mt-2">Generate QR</button>
         </form>
 
-        @if (session('qr'))
-            <div class="mt-4">
-                <img src="{{ session('qr') }}" class="w-48">
+       @if (session('qr'))
+    <div class="mt-6 text-center">
+        <img
+            src="data:image/png;base64,{{ session('qr') }}"
+            alt="QR Code"
+            class="mx-auto w-64 h-64"
+        >
 
-            </div>
+        <a
+            href="data:image/png;base64,{{ session('qr') }}"
+            download="qrcode.png"
+            class="mt-4 inline-block bg-green-600 text-white px-4 py-2 rounded-lg"
+        >
+            Download QR
+        </a>
+    </div>
+@endif
 
-            <div class="mt-2">
-                <a href="{{ session('qr') }}" download="qrcode.png"
-                    class="bg-green-600 text-white px-4 py-2 mt-3 inline-block rounded hover:bg-green-700">
-                    Download QR Code
-                </a>
-            </div>
-        @endif
 
     </div>
 @endsection

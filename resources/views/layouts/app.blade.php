@@ -85,8 +85,8 @@
 
         .parallax-modern img {
             width: 100%;
-            height: 120%;
-            object-fit: cover;
+            height: 100%;
+            /* object-fit: cover; */
             transform: translateY(0);
             transition: transform 0.15s ease-out;
             will-change: transform;
@@ -121,66 +121,104 @@
 
     {{-- ================= NAVBAR ================= --}}
     <nav class="bg-white/90 backdrop-blur shadow-sm sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="flex justify-between items-center h-16">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between items-center h-16">
 
-                <!-- Logo -->
-                <a href="{{ url('/') }}" class="flex items-center gap-2 text-green-700 font-extrabold text-lg">
-                    <img src="{{ asset('favicon.ico') }}" alt="Logo Kebun Opah" class="h-8 w-8">
+            <!-- Logo -->
+            <a href="{{ url('/') }}" class="flex items-center gap-2 text-green-700 font-extrabold text-lg">
+                <img src="{{ asset('favicon.ico') }}" class="h-8 w-8">
+                <span class="sm:block">Kebun SMKN2TSM</span>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-6 text-sm font-medium">
+
+                <a href="{{ url('/trees') }}"
+                    class="{{ Request::is('trees') ? 'text-green-700' : '' }} hover:text-green-600">
+                    Semua Pohon
                 </a>
 
-                <!-- Menu -->
-                <div class="flex items-center gap-6 text-sm font-medium">
+                <a href="{{ url('/members') }}"
+                    class="{{ Request::is('members') ? 'text-green-700' : '' }} hover:text-green-600">
+                    Anggota
+                </a>
 
-                    <a href="{{ url('/trees') }}"
-                        class="hover:text-green-600 transition {{ Request::is('trees') ? 'text-green-700' : '' }}">
-                        Semua Pohon
-                    </a>
-                    <a href="{{ url('/members') }}"
-                        class="hover:text-green-600 transition {{ Request::is('members') ? 'text-green-700' : '' }}">
-                        Anggota
-                    </a>
-                    <a href="{{ url('/sejarah') }}"
-                        class="hover:text-green-600 transition {{ Request::is('sejarah') ? 'text-green-700' : '' }}">
-                        Sejarah
-                    </a>
+                <a href="{{ url('/sejarah') }}"
+                    class="{{ Request::is('sejarah') ? 'text-green-700' : '' }} hover:text-green-600">
+                    Sejarah
+                </a>
 
-                    @auth
-                        @if (auth()->user()->role === 'admin')
-                            <span class="border-l h-5 mx-2"></span>
-                            <a href="{{ url('/admin/trees') }}"
-                                class="hover:text-green-600 transition {{ Request::is('admin/trees') ? 'text-green-700' : '' }}">
-                                Kelola Pohon
-                            </a>
+                @auth
+                    @if (auth()->user()->role === 'admin')
+                        <span class="border-l h-5"></span>
 
-                            <a href="{{ url('/admin/members') }}"
-                                class="hover:text-green-600 transition {{ Request::is('admin/members') ? 'text-green-700' : '' }}">
-                                Kelola Anggota
-                            </a>
-                            <a href="{{ url('/admin/qrcode') }}"
-                                class="hover:text-green-600 transition {{ Request::is('admin/qrcode') ? 'text-green-700' : '' }}">
-                                QR Code
-                            </a>
-                        @endif
-
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit"
-                                class="bg-green-600 text-white px-4 py-1.5 rounded-full hover:bg-green-700 transition">
-                                Logout
-                            </button>
-                        </form>
-                    @else
-                        <a href="{{ route('login') }}"
-                            class="bg-green-600 text-white px-4 py-1.5 rounded-full hover:bg-green-700 transition">
-                            Login
+                        <a href="{{ url('/admin/trees') }}" class="hover:text-green-600">
+                            Kelola Pohon
                         </a>
-                    @endauth
-                </div>
 
+                        <a href="{{ url('/admin/members') }}" class="hover:text-green-600">
+                            Kelola Anggota
+                        </a>
+
+                        <a href="{{ url('/admin/qrcode') }}" class="hover:text-green-600">
+                            QR Code
+                        </a>
+                    @endif
+
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button
+                            class="bg-green-600 text-white px-4 py-1.5 rounded-full hover:bg-green-700">
+                            Logout
+                        </button>
+                    </form>
+                @else
+                    <a href="{{ route('login') }}"
+                        class="bg-green-600 text-white px-4 py-1.5 rounded-full hover:bg-green-700">
+                        Login
+                    </a>
+                @endauth
             </div>
+
+            <!-- Mobile Button -->
+            <button id="menuBtn" class="md:hidden text-green-700 focus:outline-none">
+                ☰
+            </button>
         </div>
-    </nav>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden md:hidden bg-white border-t">
+        <div class="px-4 py-4 space-y-3 text-sm">
+
+            <a href="{{ url('/trees') }}" class="block">Semua Pohon</a>
+            <a href="{{ url('/members') }}" class="block">Anggota</a>
+            <a href="{{ url('/sejarah') }}" class="block">Sejarah</a>
+
+            @auth
+                @if (auth()->user()->role === 'admin')
+                    <hr>
+                    <a href="{{ url('/admin/trees') }}" class="block">Kelola Pohon</a>
+                    <a href="{{ url('/admin/members') }}" class="block">Kelola Anggota</a>
+                    <a href="{{ url('/admin/qrcode') }}" class="block">QR Code</a>
+                @endif
+
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button class="w-full text-left text-red-600">
+                        Logout
+                    </button>
+                </form>
+            @else
+                <a href="{{ route('login') }}"
+                    class="block bg-green-600 text-white text-center py-2 rounded">
+                    Login
+                </a>
+            @endauth
+        </div>
+    </div>
+</nav>
+
 
     {{-- ================= CONTENT ================= --}}
     <main class="py-10 min-h-[70vh]">
@@ -188,6 +226,13 @@
             @yield('content')
         </div>
     </main>
+<div id="loading"
+    class="fixed inset-0 bg-black/40 hidden items-center justify-center z-[9999]">
+    <div class="bg-white px-6 py-4 rounded-lg shadow text-center">
+        <div class="animate-spin rounded-full h-10 w-10 border-4 border-green-600 border-t-transparent mx-auto"></div>
+        <p class="mt-3 text-sm font-semibold text-gray-700">Memproses...</p>
+    </div>
+</div>
 
     {{-- ================= FOOTER ================= --}}
     <footer class="bg-gradient-to-r from-green-700 to-green-600 text-white">
@@ -199,6 +244,15 @@
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+    document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('submit', () => {
+            document.getElementById('loading').classList.remove('hidden');
+            document.getElementById('loading').classList.add('flex');
+        });
+    });
+</script>
+
     @if (session('success'))
         <script>
             Swal.fire({
@@ -252,6 +306,11 @@
             });
         });
     </script>
+<script>
+    document.getElementById('menuBtn').addEventListener('click', () => {
+        document.getElementById('mobileMenu').classList.toggle('hidden');
+    });
+</script>
 
 </body>
 

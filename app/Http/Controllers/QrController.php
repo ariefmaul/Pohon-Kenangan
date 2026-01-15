@@ -15,29 +15,26 @@ class QrController extends Controller
 
     public function generate(Request $request)
     {
-        $link = $request->link;
+        $request->validate([
+            'link' => 'required|url'
+        ]);
 
-        // Logo (gunakan PNG, bukan ICO)
-        $logo = public_path('logo.jpg'); // ubah favicon.ico ke PNG agar stabil
+        $logo = public_path('logo.jpg');
 
-        // Output file
-        $outputPath = 'qrcodes/qr-' . time() . '.png';
-        $saveTo = storage_path('app/public/' . $outputPath);
-
-        // Generate QR dengan logo
+        // Generate QR
         $result = Builder::create()
             ->writer(new PngWriter())
-            ->data($link)
+            ->data($request->link)
             ->size(400)
             ->margin(10)
-            ->logoPath($logo)     // logo
+            ->logoPath($logo)
             ->logoResizeToWidth(80)
             ->logoPunchoutBackground(true)
             ->build();
 
-        // simpan file
-        $result->saveToFile($saveTo);
+        // ✅ Convert ke BASE64 (tidak disimpan)
+        $qrBase64 = base64_encode($result->getString());
 
-        return back()->with('qr', asset('storage/' . $outputPath));
+        return back()->with('qr', $qrBase64);
     }
 }
