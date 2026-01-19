@@ -1,6 +1,6 @@
-# Kebun Opah (SMKN 2 Tasikmalaya)
+# Pohon Kenangan (SMKN 2 Tasikmalaya)
 
-Project web sederhana untuk menampilkan koleksi pohon, artikel terkait, dan manajemen anggota. Termasuk fitur admin untuk CRUD pohon, artikel, anggota, serta generator QR code.
+Project web untuk menampilkan kenangan kelas, serta generator QR code.
 
 ## Fitur utama
 
