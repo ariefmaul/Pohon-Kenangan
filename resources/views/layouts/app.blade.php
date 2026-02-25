@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title ?? 'Kebun SMKN 2 Tasikmalaya' }}</title>
+    <title>{{ $title ?? 'Kebun ANTARES' }}</title>
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
 
 @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -127,7 +127,7 @@
             <!-- Logo -->
             <a href="{{ url('/') }}" class="flex items-center gap-2 text-green-700 font-extrabold text-lg">
                 <img src="{{ asset('favicon.ico') }}" class="h-8 w-8">
-                <span class="sm:block">Kebun SMKN2TSM</span>
+                <span class="sm:block">Kebun ANTARES    </span>
             </a>
 
             <!-- Desktop Menu -->
@@ -221,8 +221,8 @@
 
 
     {{-- ================= CONTENT ================= --}}
-    <main class="py-10 min-h-[70vh]">
-        <div class="max-w-7xl mx-auto px-4">
+    <main class="">
+        <div class="">
             @yield('content')
         </div>
     </main>
@@ -237,9 +237,9 @@
     {{-- ================= FOOTER ================= --}}
     <footer class="bg-gradient-to-r from-green-700 to-green-600 text-white">
         <div class="max-w-7xl mx-auto px-4 py-6 text-center text-sm">
-            <p class="font-semibold">🌿 Kebun SMKN2TSM</p>
+            <p class="font-semibold">🌿 ANTARES STM</p>
             <p class="opacity-80 mt-1">
-                &copy; {{ date('Y') }} Kebun SMKN2TSM. Semua Hak Dilindungi.
+                &copy; {{ date('Y') }} Kebun ANTARES. Semua Hak Dilindungi.
             </p>
         </div>
     </footer>
@@ -311,6 +311,8 @@
         document.getElementById('mobileMenu').classList.toggle('hidden');
     });
 </script>
+
+
 
 </body>
 

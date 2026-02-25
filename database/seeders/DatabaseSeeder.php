@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
+
 class DatabaseSeeder extends Seeder
 {
     use WithoutModelEvents;
@@ -19,6 +20,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
+        $this->call([
+            KelasSeeder::class,
+            SiswaSeeder::class,
+        ]);
 
         User::create([
             'name' => 'Admin Kebun Opah',
@@ -61,5 +66,6 @@ class DatabaseSeeder extends Seeder
             'jabatan' => 'Sekretaris',
             'foto' => 'members/siti.jpg',
         ]);
+
     }
 }

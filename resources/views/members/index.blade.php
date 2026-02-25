@@ -4,7 +4,7 @@
         <!-- Header -->
         <div class="flex items-center justify-between mb-8">
             <h1 class="text-3xl font-bold text-gray-800">
-                👥 Daftar Anggota
+                👥 Daftar Kepanitian
             </h1>
         </div>
         <!-- Grid Card -->

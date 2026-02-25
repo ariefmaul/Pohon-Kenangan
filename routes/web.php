@@ -6,18 +6,22 @@ use App\Http\Controllers\TreeController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\QrController;
+use App\Http\Controllers\KelasController;
 
 // Route untuk user biasa (guest)
-Route::get('/', [TreeController::class, 'index']);
-Route::get('/trees', [TreeController::class, 'index']);
-Route::get('/trees/{id}', [TreeController::class, 'show']);
-Route::get('/articles/{id}', [ArticleController::class, 'show']);
-Route::get('/members', [MemberController::class, 'index']);
-Route::get('/sejarah', function () {
-    return view('sejarah');
+Route::get('/', [KelasController::class, 'index']);
+Route::get('/antares', [KelasController::class, 'index']);
+Route::get('/kelas', function () {
+    return view('kelas.siswa');
 });
-Route::get('/trees/{id}', [TreeController::class, 'show'])
-    ->name('trees.show');
+// Route::get('/trees/{id}', [TreeController::class, 'show']);
+// Route::get('/articles/{id}', [ArticleController::class, 'show']);
+// Route::get('/members', [MemberController::class, 'index']);
+// Route::get('/sejarah', function () {
+//     return view('sejarah');
+// });
+Route::get('/kelas/{id}', [KelasController::class, 'show'])
+    ->name('kelas.show');
 // Route untuk admin (CRUD)
 
 
