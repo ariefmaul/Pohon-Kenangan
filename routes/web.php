@@ -7,10 +7,11 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\QrController;
 use App\Http\Controllers\KelasController;
+use App\Http\Controllers\HomeController;
 
 // Route untuk user biasa (guest)
-Route::get('/', [KelasController::class, 'index']);
-Route::get('/antares', [KelasController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/pohon', [HomeController::class, 'pohon'])->name('pohon');
 Route::get('/kelas', function () {
     return view('kelas.siswa');
 });
