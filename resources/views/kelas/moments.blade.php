@@ -46,7 +46,7 @@
 
                     @if($isLeft)
 
-                        <!-- TEXT KIRI -->
+                        <!-- TEXT KIRIddddd -->
                         <div class="md:w-1/2 md:pr-16 text-right text-white">
                             <h3 class="text-2xl font-semibold mb-3">
                                 {{ $moment->judul }}
