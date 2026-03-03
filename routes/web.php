@@ -6,20 +6,24 @@ use App\Http\Controllers\TreeController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\QrController;
+use App\Http\Controllers\KelasController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MomentController;
 
 // Route untuk user biasa (guest)
-Route::get('/', [TreeController::class, 'index']);
-Route::get('/trees', [TreeController::class, 'index']);
-Route::get('/trees/{id}', [TreeController::class, 'show']);
-Route::get('/articles/{id}', [ArticleController::class, 'show']);
-Route::get('/members', [MemberController::class, 'index']);
-Route::get('/sejarah', function () {
-    return view('sejarah');
-});
-Route::get('/trees/{id}', [TreeController::class, 'show'])
-    ->name('trees.show');
-// Route untuk admin (CRUD)
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
+Route::get('/pohon', [HomeController::class, 'pohon'])->name('pohon');
+
+Route::get('/kelas/{id}', [KelasController::class, 'show'])
+    ->name('kelas.siswa');
+
+
+Route::get('/kelas/{id}/gambar', [MomentController::class, 'index'])
+    ->name('kelas.moments');
+
+
+// Route untuk admin (CRUD)
 
 Route::middleware(['auth', 'admin'])->group(function () {
     // artikel

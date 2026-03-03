@@ -3,7 +3,7 @@
     <div class="max-w-7xl mx-auto px-4 py-8">
         <!-- Header -->
         <div class="flex items-center justify-between mb-6">
-            <h1 class="text-3xl font-bold text-gray-800">👥 Daftar Anggota</h1>
+            <h1 class="text-3xl font-bold text-gray-800">👥 Daftar Kepanitian</h1>
             <button onclick="openAddModal()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg">
                 + Tambah Anggota
             </button>
