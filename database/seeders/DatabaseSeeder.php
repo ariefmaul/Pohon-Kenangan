@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             KelasSeeder::class,
             SiswaSeeder::class,
+            MomentSeeder::class,
         ]);
 
         User::create([
@@ -42,30 +43,7 @@ class DatabaseSeeder extends Seeder
             'deskripsi' => 'Kayu jati terkenal kuat dan awet.',
             'gambar' => 'trees/jati.jpg',
         ]);
-        TreeArticle::create([
-            'tree_id' => 1,
-            'judul' => 'Manfaat Buah Mangga',
-            'isi' => 'Mangga kaya vitamin C dan baik untuk kesehatan.',
-            'gambar' => 'articles/mangga.jpg',
-        ]);
 
-        TreeArticle::create([
-            'tree_id' => 2,
-            'judul' => 'Kegunaan Kayu Jati',
-            'isi' => 'Kayu jati digunakan untuk furniture berkualitas tinggi.',
-            'gambar' => 'articles/jati.jpg',
-        ]);
-        Member::create([
-            'nama' => 'Budi',
-            'jabatan' => 'Ketua',
-            'foto' => 'members/budi.jpg',
-        ]);
-
-        Member::create([
-            'nama' => 'Siti',
-            'jabatan' => 'Sekretaris',
-            'foto' => 'members/siti.jpg',
-        ]);
 
     }
 }

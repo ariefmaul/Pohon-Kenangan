@@ -14,6 +14,6 @@ class HomeController extends Controller
     public function pohon()
     {
         $kelas = Kelas::with('siswa')->paginate(10);
-        return view('trees.index', compact('kelas'));
+        return view('pohon.index', compact('kelas'));
     }
 }

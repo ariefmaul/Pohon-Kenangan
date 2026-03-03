@@ -17,4 +17,10 @@ class KelasController extends Controller
         $kelas = Kelas::with('siswa')->findOrFail($id);
         return view('kelas.siswa', compact('kelas'));
     }
+    public function picture($id)
+    {
+        $kelas = Kelas::with('siswa')->findOrFail($id);
+        return view('kelas.moments', compact('kelas'));
+    }
+    
 }

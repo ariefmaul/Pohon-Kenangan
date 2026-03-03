@@ -136,8 +136,7 @@
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center gap-6 text-sm font-medium">
 
-                    @if(request()->routeIs('home'))
-
+                    @if (request()->routeIs('home'))
                         <a href="#home"
                             class="nav-link relative pb-1 transition-colors duration-300 text-gray-700 hover:text-green-600 group">
                             Home
@@ -168,18 +167,28 @@
                             class="bg-green-600 text-white px-4 py-1.5 rounded-full hover:bg-green-700 transition">
                             🌳 Semua Pohon →
                         </a>
-
                     @elseif(request()->routeIs('pohon'))
                         <a href="{{ route('home') }}"
                             class="bg-green-600 text-white px-4 py-1.5 rounded-full hover:bg-green-700 transition">
                             ← 🏠 Kembali
                         </a>
                     @else
+                        <a href="{{ route('kelas.siswa', request()->route('id')) }}"
+                            class="nav-link relative pb-1 transition-colors duration-300 text-gray-700 hover:text-green-600 group">
+                            Siswa
+                            <span
+                                class="absolute left-0 bottom-0 h-0.5 w-0 bg-green-600 transition-all duration-300 group-hover:w-full"></span>
+                        </a>
+                        <a href="{{ route('kelas.moments', request()->route('id')) }}"
+                            class="nav-link relative pb-1 transition-colors duration-300 text-gray-700 hover:text-green-600 group">
+                            Gambar
+                            <span
+                                class="absolute left-0 bottom-0 h-0.5 w-0 bg-green-600 transition-all duration-300 group-hover:w-full"></span>
+                        </a>
                         <a href="{{ route('pohon') }}"
                             class="bg-green-600 text-white px-4 py-1.5 rounded-full hover:bg-green-700 transition">
                             ← 🌳 Kembali
                         </a>
-
                     @endif
 
                     <span class="border-l h-5"></span>
@@ -226,8 +235,7 @@
         <div id="mobileMenu" class="hidden md:hidden bg-white border-t shadow-sm">
             <div class="px-4 py-4 space-y-2 text-sm">
 
-                @if(request()->routeIs('home'))
-
+                @if (request()->routeIs('home'))
                     <a href="#home"
                         class="mobile-link nav-link block px-3 py-3 rounded-lg transition-colors duration-200 text-gray-700 hover:bg-green-100">
                         Home
@@ -251,10 +259,22 @@
                             🌳 Semua Pohon →
                         </a>
                     </div>
-
-                @else
+                @elseif(request()->routeIs('pohon'))
                     <a href="{{ route('home') }}" class="block bg-green-600 text-white text-center py-2 rounded-lg">
                         ← 🏠 Kembali
+                    </a>
+                @else
+                        <a href="{{ route('kelas.siswa', request()->route('id')) }}"
+                            class="mobile-link nav-link block px-3 py-3 rounded-lg transition-colors duration-200 text-gray-700 hover:bg-green-100">
+                            Siswa
+                        </a>
+                        <a href="{{ route('kelas.moments', request()->route('id')) }}"
+                            class="mobile-link nav-link block px-3 py-3 rounded-lg transition-colors duration-200 text-gray-700 hover:bg-green-100">
+                            Gambar
+                        </a>
+                    <a href="{{ route('pohon') }}"
+                        class="block bg-green-600 text-white text-center py-2 rounded-lg hover:bg-green-700 transition">
+                        ← 🌳 Semua Pohon
                     </a>
                 @endif
 
@@ -426,7 +446,7 @@
 
         /* ================= SMOOTH SCROLL ================= */
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener("click", function (e) {
+            anchor.addEventListener("click", function(e) {
                 e.preventDefault();
 
                 const target = document.querySelector(this.getAttribute("href"));
@@ -440,6 +460,7 @@
             });
         });
     </script>
+    
 
 </body>
 

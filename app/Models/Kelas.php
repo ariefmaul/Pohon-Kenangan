@@ -18,5 +18,8 @@ class Kelas extends Model
     {
         return $this->hasMany(Siswa::class, 'id_kelas');
     }
-
+    public function moments()
+    {
+        return $this->hasMany(Moment::class, 'id_kelas');
+    }
 }
