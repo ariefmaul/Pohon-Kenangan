@@ -6,22 +6,29 @@ use App\Http\Controllers\TreeController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\QrController;
+use App\Http\Controllers\KelasController;
+use App\Http\Controllers\Km\KelasController as KmKelasController;
+use App\Http\Controllers\Km\MomentController as KmMomentController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MomentController;
+
 
 // Route untuk user biasa (guest)
-Route::get('/', [TreeController::class, 'index']);
-Route::get('/trees', [TreeController::class, 'index']);
-Route::get('/trees/{id}', [TreeController::class, 'show']);
-Route::get('/articles/{id}', [ArticleController::class, 'show']);
-Route::get('/members', [MemberController::class, 'index']);
-Route::get('/sejarah', function () {
-    return view('sejarah');
-});
-Route::get('/trees/{id}', [TreeController::class, 'show'])
-    ->name('trees.show');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('/pohon', [HomeController::class, 'pohon'])->name('pohon');
+
+Route::get('/kelas/{id}', [KelasController::class, 'show'])
+    ->name('kelas.siswa');
+
+
+Route::get('/kelas/{id}/gambar', [MomentController::class, 'index'])
+    ->name('kelas.moments');
+
+
 // Route untuk admin (CRUD)
 
-
-Route::middleware(['auth', 'admin'])->group(function () {
+Route::middleware(['auth', 'role:admin'])->group(function () {
     // artikel
     Route::get('/admin/articles', [ArticleController::class, 'index'])
         ->name('articles.index');
@@ -67,7 +74,45 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/admin/qrcode', [QrController::class, 'generate'])->name('admin.qrcode.generate');
 });
 
+Route::middleware(['auth', 'role:km'])
+    ->prefix('ketua_murid')
+    ->name('km.')
+    ->group(function () {
 
+        // Kelas
+        Route::get('/kelas/{id}', [KmKelasController::class, 'show'])
+            ->name('kelas.show');
+
+        Route::put(
+            '/kelas/{id}/moment-bg',
+            [KmKelasController::class, 'updateMomentBg']
+        )
+            ->name('kelas.updateMomentBg');
+
+        Route::put(
+            '/kelas/{id}/siswa-bg',
+            [KmKelasController::class, 'updateSiswaBg']
+        )
+            ->name('kelas.updateSiswaBg');
+
+        // Siswa
+        Route::resource('siswa', KmKelasController::class);
+
+        // Moments
+        Route::prefix('moments')->group(function () {
+            Route::get('{id}', [KmMomentController::class, 'show'])
+                ->name('moments.show');
+
+            Route::post('/', [KmMomentController::class, 'store'])
+                ->name('moments.store');
+
+            Route::put('{id}', [KmMomentController::class, 'update'])
+                ->name('moments.update');
+
+            Route::delete('{id}', [KmMomentController::class, 'destroy'])
+                ->name('moments.destroy');
+        });
+    });
 
 
 

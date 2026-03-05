@@ -27,7 +27,7 @@ class AuthenticatedSessionController extends Controller
             'password' => ['required', 'string'],
         ]);
 
-        if (! Auth::attempt($credentials, $request->boolean('remember'))) {
+        if (!Auth::attempt($credentials, $request->boolean('remember'))) {
             throw ValidationException::withMessages([
                 'email' => __('Email atau password salah.'),
             ]);
@@ -38,6 +38,8 @@ class AuthenticatedSessionController extends Controller
         // Redirect sesuai role
         if (Auth::user()->role === 'admin') {
             return redirect()->intended('/admin/trees');
+        } elseif (Auth::user()->role === 'km') {
+            return redirect()->route('km.kelas.show', Auth::user()->id_kelas);
         }
 
         return redirect()->intended('/');

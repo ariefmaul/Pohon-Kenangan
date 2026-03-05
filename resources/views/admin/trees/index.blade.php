@@ -56,7 +56,7 @@
                             </a>
 
                             <span class="text-xs text-gray-400">
-                                ID: {{ $tree->id }}
+                                Oleh Kelas: {{ $tree->id }}
                             </span>
                             <button onclick='openEditModal(@json($tree))'
                                 class="px-3 py-1 bg-yellow-500 text-white rounded">
