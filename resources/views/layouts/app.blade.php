@@ -119,6 +119,9 @@
             box-shadow: 0 10px 26px rgba(0, 0, 0, 0.15);
         }
     </style>
+    <style>
+        /* desktop and mobile nav styling now use Tailwind utility classes; custom CSS removed */
+    </style>
 
 </head>
 
@@ -138,7 +141,8 @@
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center gap-6 text-sm font-medium">
 
-                    @if (request()->routeIs('home'))
+                    @if(request()->routeIs('home'))
+
                         <a href="#home"
                             class="nav-link relative pb-1 transition-colors duration-300 text-gray-700 hover:text-green-600 group">
                             Home
@@ -252,25 +256,22 @@
         <div id="mobileMenu" class="hidden md:hidden bg-white border-t shadow-sm">
             <div class="px-4 py-4 space-y-2 text-sm">
 
-                @if (request()->routeIs('home'))
+                @if(request()->routeIs('home'))
 
                     <a href="#home"
-                        class="mobile-link nav-link block px-3 py-3 rounded-lg transition text-gray-700 hover:bg-green-100">
+                        class="mobile-link nav-link block px-3 py-3 rounded-lg transition-colors duration-200 text-gray-700 hover:bg-green-100">
                         Home
                     </a>
-
                     <a href="#tentang_angkatan"
-                        class="mobile-link nav-link block px-3 py-3 rounded-lg transition text-gray-700 hover:bg-green-100">
+                        class="mobile-link nav-link block px-3 py-3 rounded-lg transition-colors duration-200 text-gray-700 hover:bg-green-100">
                         Tentang
                     </a>
-
                     <a href="#galeri_angkatan"
-                        class="mobile-link nav-link block px-3 py-3 rounded-lg transition text-gray-700 hover:bg-green-100">
+                        class="mobile-link nav-link block px-3 py-3 rounded-lg transition-colors duration-200 text-gray-700 hover:bg-green-100">
                         Galeri
                     </a>
-
                     <a href="#video_angkatan"
-                        class="mobile-link nav-link block px-3 py-3 rounded-lg transition text-gray-700 hover:bg-green-100">
+                        class="mobile-link nav-link block px-3 py-3 rounded-lg transition-colors duration-200 text-gray-700 hover:bg-green-100">
                         Video
                     </a>
 
@@ -281,87 +282,33 @@
                         </a>
                     </div>
 
-                @elseif(request()->routeIs('pohon'))
-
+                @else
                     <a href="{{ route('home') }}" class="block bg-green-600 text-white text-center py-2 rounded-lg">
                         ← 🏠 Kembali
                     </a>
-
-                @else
-
-                    @if(auth()->check() && auth()->user()->role === 'km')
-
-                        <a href="{{ route('km.kelas.show', request()->route('id')) }}"
-                            class="block px-3 py-3 rounded-lg transition 
-                            {{ request()->routeIs('km.kelas.show') ? 'bg-green-100 text-green-600 font-semibold' : 'text-gray-700 hover:bg-green-100' }}">
-                            Siswa
-                        </a>
-
-                        <a href="{{ route('km.moments.show', request()->route('id')) }}"
-                            class="block px-3 py-3 rounded-lg transition 
-                            {{ request()->routeIs('km.moments.show') ? 'bg-green-100 text-green-600 font-semibold' : 'text-gray-700 hover:bg-green-100' }}">
-                            Gambar
-                        </a>
-
-                    @else
-
-                        <a href="{{ route('kelas.siswa', request()->route('id')) }}"
-                            class="block px-3 py-3 rounded-lg transition 
-                            {{ request()->routeIs('kelas.siswa') ? 'bg-green-100 text-green-600 font-semibold' : 'text-gray-700 hover:bg-green-100' }}">
-                            Siswa
-                        </a>
-
-                        <a href="{{ route('kelas.moments', request()->route('id')) }}"
-                            class="block px-3 py-3 rounded-lg transition 
-                            {{ request()->routeIs('kelas.moments') ? 'bg-green-100 text-green-600 font-semibold' : 'text-gray-700 hover:bg-green-100' }}">
-                            Gambar
-                        </a>
-
-                    @endif
-
-                    <div class="pt-3">
-                        <a href="{{ route('pohon') }}"
-                            class="block bg-green-600 text-white text-center py-2 rounded-lg hover:bg-green-700 transition">
-                            ← 🌳 Semua Pohon
-                        </a>
-                    </div>
-
                 @endif
 
-
-                {{-- ===== ADMIN MENU ===== --}}
                 @auth
                     @if (auth()->user()->role === 'admin')
-                        <hr class="my-3">
-
-                        <a href="{{ url('/admin/trees') }}" class="block px-3 py-2 rounded-lg hover:bg-green-100">
-                            Tentang Angkatan
-                        </a>
-
-                        <a href="{{ url('/admin/members') }}" class="block px-3 py-2 rounded-lg hover:bg-green-100">
-                            Kelola Anggota
-                        </a>
-
-                        <a href="{{ url('/admin/qrcode') }}" class="block px-3 py-2 rounded-lg hover:bg-green-100">
-                            QR Code
-                        </a>
+                        <hr>
+                        <a href="{{ url('/admin/trees') }}" class="block">Kelola Pohon</a>
+                        <a href="{{ url('/admin/members') }}" class="block">Kelola Anggota</a>
+                        <a href="{{ url('/admin/qrcode') }}" class="block">QR Code</a>
                     @endif
 
                     <form method="POST" action="{{ route('logout') }}" class="pt-3">
                         @csrf
-                        <button class="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition">
+                        <button class="w-full text-left text-red-600">
                             Logout
                         </button>
                     </form>
 
                 @else
-                    <div class="pt-3">
-                        <a href="{{ route('login') }}"
-                            class="block bg-green-600 text-white text-center py-2 rounded-lg hover:bg-green-700 transition">
-                            Login
-                        </a>
-                    </div>
+                    <a href="{{ route('login') }}" class="block bg-green-600 text-white text-center py-2 rounded">
+                        Login
+                    </a>
                 @endauth
+
 
             </div>
         </div>
@@ -431,12 +378,12 @@
                 icon: 'error',
                 title: 'Gagal',
                 html: `
-                                                                                                                                                <ul style="text-align:left">
-                                                                                                                                                    @foreach ($errors->all() as $error)
-                                                                                                                                                        <li>{{ $error }}</li>
-                                                                                                                                                    @endforeach
-                                                                                                                                                </ul>
-                                                                                                                                            `,
+                                                                                                                            <ul style="text-align:left">
+                                                                                                                                @foreach ($errors->all() as $error)
+                                                                                                                                    <li>{{ $error }}</li>
+                                                                                                                                @endforeach
+                                                                                                                            </ul>
+                                                                                                                        `,
             });
         </script>
     @endif
@@ -525,8 +472,6 @@
             });
         });
     </script>
-
-
 
 </body>
 

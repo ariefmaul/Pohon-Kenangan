@@ -23,7 +23,10 @@ class DatabaseSeeder extends Seeder
         $this->call([
             KelasSeeder::class,
             SiswaSeeder::class,
+<<<<<<< HEAD
             MomentSeeder::class,
+=======
+>>>>>>> origin/copy
         ]);
 
         User::create([
@@ -45,5 +48,14 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
+<<<<<<< HEAD
+=======
+        Member::create([
+            'nama' => 'Siti',
+            'jabatan' => 'Sekretaris',
+            'foto' => 'members/siti.jpg',
+        ]);
+
+>>>>>>> origin/copy
     }
 }
